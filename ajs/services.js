@@ -9,7 +9,7 @@ app.factory("mainService", function($q, $http) {
       setTimeout(function() {
         if (u==='miro' && p==='miro1' || demo) deferred.resolve("OK");
         else deferred.reject('Chybne meno alebo heslo!');
-      }, 100); 
+      }, 50); 
       
 /*      
       $http.post(_url,{task:'login',u:u,p:p})

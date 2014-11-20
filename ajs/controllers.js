@@ -8,7 +8,7 @@ app.controller("MainController", function($scope, $http, $location, mainService)
   $scope.MAIN_QUERY = 'http://apadmin.skimountaineering.sk/api/api-ap-admin.php';
 
   /** DEMO PAGE ONLY */
-  $scope.demo = true;
+  $scope.demo = false;//true;//false;
   
   if ($scope.demo) {
     $scope.userName = 'demoUser';       // user name
@@ -99,8 +99,8 @@ app.controller("MainController", function($scope, $http, $location, mainService)
   };
   
   /** Login */
-  $scope.loginTheUser = function() {
-    console.log('Login:'+$scope.userName+'/'+$scope.userPwd);
+  $scope.loginTheUser = function(u,p) {
+    console.log('Login:'+$scope.userName+'/'+$scope.userPwd+' // '+u+'/'+p);
     /*if ($scope.userName=='') {
       alert('Please enter Login name!');
       document.getElementById("_userName").focus();
@@ -113,7 +113,7 @@ app.controller("MainController", function($scope, $http, $location, mainService)
 
     $scope.loggingIn=true;
 
-    mainService.loginFn($scope.userName,$scope.userPwd,$scope.demo)
+    mainService.loginFn(u,p,$scope.demo)
       .then(function(r){
           $scope.loggedIn=true;
           $scope.go('/ShowList');
@@ -200,7 +200,7 @@ app.controller("MainController", function($scope, $http, $location, mainService)
 
 /** Controller: user login */ 
 app.controller('LoginController', function($scope, mainService) {
-  $scope.loginUser = function() { $scope.loginTheUser(); };
+  $scope.loginUser = function() { $scope.loginTheUser($scope.userName,$scope.userPwd); };
 });
 
 /** Controller: display detail */
