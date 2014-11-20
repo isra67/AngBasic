@@ -3,9 +3,15 @@ app.factory("mainService", function($q, $http) {
 
     /** Log In */
     var _loginFn = function(u,p,demo) {
-      var deferred = $q.defer();
       console.log('LoginService:'+u+'/'+p+'/'+demo);
+      var deferred = $q.defer();
       
+      setTimeout(function() {
+        if (u==='miro' && p==='miro1' || demo) deferred.resolve("OK");
+        else deferred.reject('Chybne meno alebo heslo!');
+      }, 100); 
+      
+/*      
       $http.post(_url,{task:'login',u:u,p:p})
         .then(function(results) {        
             //Success
@@ -22,12 +28,27 @@ app.factory("mainService", function($q, $http) {
             } else {             
               deferred.reject(err.status);
             }        
-          });
+          });//*/   
           
+      return deferred.promise;
+    };
+    
+    var _getAllRaceRacers = function(query,id) {
+      var deferred = $q.defer();
+    
+      $http.post(query,{task:'raceracerslist',pretekid:id})
+        .then(function(results) { //Success       
+            deferred.resolve(results.data);
+          }, function(err) {
+            console.log('raceracerslist ERR:'+err.status);
+            deferred.reject(err.status);
+        });
+        
       return deferred.promise;
     };
  
     return {
-      loginFn: _loginFn
+      loginFn: _loginFn,
+      getAllRaceRacers: _getAllRaceRacers
     };
 });

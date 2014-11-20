@@ -5,6 +5,8 @@ app.controller("MainController", function($scope, $http, $location, mainService)
   /** copyright text */
   $scope._my_copyright = "IS (c) 2014";
 
+  $scope.MAIN_QUERY = 'http://apadmin.skimountaineering.sk/api/api-ap-admin.php';
+
   /** DEMO PAGE ONLY */
   $scope.demo = true;
   
@@ -18,6 +20,8 @@ app.controller("MainController", function($scope, $http, $location, mainService)
 
   $scope.loggedIn = false;    // user is logged
   $scope.loggingIn = false;   // logging process 
+  
+  $scope.loadingData = false; // load data from the server in progress
     
   /** URL redirect */
   $scope.go = function( path ) {
@@ -42,13 +46,27 @@ app.controller("MainController", function($scope, $http, $location, mainService)
           //document.getElementById("_userName").select(); 
           document.getElementById("_userName").focus();
           break;
+        case '/ShowList': showRaceList(); break;
       }
     }, 1);
   });
   
+  /** show list of races */
+  $scope.races = [];
+  function showRaceList() {
+    var query=$scope.MAIN_QUERY+'?task=racelist';
+    $scope.loadingData=true;
+    $scope.races = [];
+    $http.get(query)
+      .then(function(results) { //Success           
+          $scope.races=results.data;
+        }, function(err) {
+          console.log('showRaceList ERR:'+err.status);
+      }).finally(function(){$scope.loadingData = false;});
+  }
+  
   /** onViewLoad */
   $scope.dataSets = null;
-  $scope.loadingData = false;
   $scope.onViewLoad = function() {
     console.log('onViewLoad');
 /*    var headers = {
@@ -181,7 +199,7 @@ app.controller("MainController", function($scope, $http, $location, mainService)
 
 
 /** Controller: user login */ 
-app.controller('LoginController', function($scope) {
+app.controller('LoginController', function($scope, mainService) {
   $scope.loginUser = function() { $scope.loginTheUser(); };
 });
 
@@ -193,7 +211,22 @@ app.controller('ShowDetailController', function($scope, $routeParams) {
  
  
 /** Controller: display list */ 
-app.controller('ShowListController', function($scope) {
+app.controller('ShowListController', function($scope, mainService) {
   console.log('ShowListController'); 
   if (!$scope.loggedIn) $scope.go('/');
+
+  /** zobrazenie registrovanych pretekarov na pretek */
+  $scope.raceRacers = [];
+  $scope.selectedRace = 0;
+  $scope.zobrazenieRegistrovanych = function() {
+//    console.log('zobrazenieRegistrovanych:'+$scope.selectedRace);
+    
+    $scope.raceRacers=[];
+    $scope.loadingData=true;
+
+    mainService.getAllRaceRacers($scope.MAIN_QUERY,$scope.selectedRace)
+      .then(function(r){$scope.raceRacers = r;})
+      .finally(function(){$scope.loadingData = false;});
+  }
+  
 });
