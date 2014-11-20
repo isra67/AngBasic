@@ -1,0 +1,17 @@
+
+  <table ng-show="loadingDevice" style="min-width:60%;" cellspacing='2' cellpadding='0' align="center">
+  <tr>
+    <th>Zariadenie</th><th>Dátum</th><th>Stav</th>
+    <th><input type="button" style="margin:0px 10px" value="Návrat" ng-click="go('/ShowDevicesY')"></th>
+  </tr>
+  <tr ng-show="devicestatus.length==0">
+    <td class="tdden" colspan="4">Loading...</td>
+  </tr>  
+  <tr ng-hide="devicestatus.length==0" ng-repeat="x in devicestatus">
+    <td class="tdden"> {{x.id}} </td>
+    <td class="tdden"> <span style="color: {{x.clr}} "> {{x.stamp}} </span> </td>
+    <td class="tdden"> <span ng-repeat="xx in x.info" style="color:{{xx.c}}"> {{xx.t}} </span> </td>
+    <td> </td>
+  </tr>
+  </table>
+

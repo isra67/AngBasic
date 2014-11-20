@@ -1,0 +1,27 @@
+
+  <table id='logintab' ng-hide="loadingData" style="min-width:60%;" cellspacing='2' cellpadding='0' align="center">
+  <tr ng-show="loggingIn">
+    <td colspan="2" style="text-align:center"><span class="waitbox">Logging in...</span></td>
+  </tr>  
+  <tr ng-hide="loggingIn">
+    <td> Login name </td>
+    <td> <input id="_userName" ng-model="userName" type='text' maxlength="16" style='margin:0px 5px 0px 5px;'> </td>
+  </tr>
+  <tr ng-hide="loggingIn">
+    <td> Password </td>
+    <td> <input ng-model="userPwd" type='password' maxlength="16" style='margin:0px 5px 0px 5px;'> </td>
+  </tr>
+  <tr ng-hide="loggingIn">
+    <td> </td>
+    <td> <input type='button' style='margin:0px 5px 0px 5px;' value='Log In' ng-click="loginUser()"> </td>
+  </tr>
+  </table>
+  
+  <table class="datatable">
+  <tr ng-show="loadingData">
+    <td colspan="2" style="text-align:center"><span class="waitbox">Loading data...</span></td>
+  </tr>
+  <tr ng-hide="loadingData" ng-repeat="(key, data) in dataSets">
+    <td>{{key}}</td><td>{{data}}</td>
+  </tr>
+  </table>

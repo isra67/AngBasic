@@ -1,0 +1,18 @@
+
+  <table ng-hide="loadingDevice" style="min-width:60%;" cellspacing='2' cellpadding='0' align="center">
+  <tr>
+    <th>Zariadenie</th><th>Dátum</th><th>Stav</th><th>Príkaz</th>
+    <th><input type="button" style="margin:0px 10px" value="Obnoviť" ng-click="go('/ShowDevicesX')"></th>
+  </tr>
+  <tr ng-show="alldevicesstatus.length==0">
+    <td class="tdden" colspan="5">Loading...</td>
+  </tr>  
+  <tr ng-hide="alldevicesstatus.length==0" ng-repeat="x in alldevicesstatus">
+    <td class="tdden"> {{x.id}} </td>
+    <td class="tdden"> <span style="color:{{x.clr}}"> {{x.stamp}} </span> </td>
+    <td class="tdden"> <span ng-repeat="xx in x.info" style="color:{{xx.c}}"> {{xx.t}} </span> </td>
+    <td class="tdden"> {{x.cmd}} </td>
+    <td class="tdden"> <input type='button' style='margin:0px 5px 0px 5px;' value='Detaily' ng-click="loadDeviceId(x)"></td>
+  </tr>
+  </table>
+
